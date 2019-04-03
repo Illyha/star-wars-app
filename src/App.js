@@ -9,9 +9,7 @@ class StarWarsService extends Component{
   }
 
   componentDidMount(){
-    const zip = this.props.zip;
-    const apiURL = "http://api.openweathermap.org/data/2.5/weather?q=" +
-    zip + "&appid=b1b35bba8b434a28a0be2a3e1071ae5b&units=metric";
+    const apiURL = "https://swapi.co/api/planets/";
     fetch(apiURL)
     .then(res => res.json() )
     .then(json => { this.setState({starwarsData : json}) })
@@ -19,30 +17,22 @@ class StarWarsService extends Component{
   
   render(){
     const starwarsData = this.state.starwarsData;
-    if(!starwarsData) return (<div>Loading data...</div>);
-    const weather = starwarsData.weather[0];
-    const iconURL = "http://api.openweathermap.org/img/w/" + weather.icon + ".png";
+    if(!starwarsData) return (<div>Please wait...</div>);
+    console.log(starwarsData);
+    const planets = starwarsData.results;
     return(
-     // <div>
-     // <h1>Hello from OpenWeatherAPI! </h1>
-     //<p>Weather for city with zipcode = {this.props.zip}</p>
-     //</div>
-     <div>
-       <h1>
-         {weather.main} in {starwarsData.name}
-         <img src ={iconURL} alt={starwarsData.description} />
-       </h1>
-       {/*{JSON.stringify(weatherData)}*/}
-       <p>Current temp : {starwarsData.main.temp}</p>
-       <p>High temp : {starwarsData.main.temp_max}</p>
-       <p>Low temp : {starwarsData.main.temp_min}</p>
-       <p>Pressure : {starwarsData.main.pressure} mb</p>
-       <p>Humidity : {starwarsData.main.humidity} </p>
-       <p>Wind speed : {starwarsData.wind.speed} m/s</p>
-       <p>Wind direction : {starwarsData.wind.deg}</p>
+      planets.map((planets,index)=>(
+      <div>
+       <p>Planet name : {planets.name}</p>
+       <p>Rotation period : {planets.rotation_period}</p>
+       <p>Orbital period : {planets.orbital_period}</p>
+       <p>Diameter : {planets.diameter}</p>
+       <p>Climate : {planets.climate}</p>
+       <p>Gravity : {planets.gravity}</p>
+       <p>Surface water : {planets.surface_water}</p>
        <p></p>
-     </div>
-    );
+       </div>
+    ))) 
   }
 }
 
@@ -57,7 +47,6 @@ class App extends Component {
     const activePlace = this.state.activePlace;
     return (
       <div className="App">
-       {/*<p>Hello World from React.js!</p>*/}
        {
          PLACES.map((place,index)=>(
            <button key={index}
@@ -74,10 +63,16 @@ class App extends Component {
   }
 }
 const PLACES = [
-  {name:"Moscow",zip:"101000"},
-  {name:"New York",zip:"10001"},
-  {name:"Seattle",zip:"98101"},
-  {name:"San-Francisco",zip:"94102"},
+  {name:"1",zip:"1"},
+  {name:"2",zip:"2"},
+  {name:"3",zip:"3"},
+  {name:"4",zip:"4"},
+  {name:"5",zip:"5"},
+  {name:"6",zip:"6"},
+  {name:"7",zip:"7"},
+  {name:"8",zip:"8"},
+  {name:"9",zip:"9"},
+  {name:"10",zip:"10"},
 ];
 
 export default App;
